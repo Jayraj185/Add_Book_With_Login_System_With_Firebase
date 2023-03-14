@@ -546,16 +546,16 @@ class _HomePageState extends State<HomePage> {
                   //   {
                   //     homeController.BooksList= homeController.BookDataList;
                   //   }
-                  print("========= $count");
+                  print("========= ${homeController.BooksList.length}");
                   // print("=========Length ${homeController.BooksList.length}");
-                  return Expanded(
-                    child: Obx(
-                        () => homeController.BooksList.isNotEmpty
-                            ? ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: homeController.BooksList.length,
-                        itemBuilder: (context, index) {
-                          return FocusedMenuHolder(
+                  return Obx(
+                      () => homeController.BooksList.isNotEmpty
+                          ? Expanded(
+                            child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: homeController.BooksList.length,
+                      itemBuilder: (context, index) {
+                        return FocusedMenuHolder(
                             animateMenuItems: true,
                             menuWidth: 150,
                             menuItems: [
@@ -592,116 +592,111 @@ class _HomePageState extends State<HomePage> {
                               child: Container(
                                 height: Get.height/3,
                                 width: Get.width,
-                                child: Obx(
-                                  () => Stack(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Container(
-                                          height: Get.height/3.3,
-                                          width: Get.width/1.3,
-                                          margin: EdgeInsets.only(right: Get.width/21),
-                                          padding: EdgeInsets.only(left: Get.width/4.1),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(15),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: Colors.grey,
-                                                    offset: Offset(0,0),
-                                                    blurRadius: 15
-                                                )
-                                              ]
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                height: Get.height/14,
-                                                width: Get.width,
-                                                // color: Colors.red,
-                                                alignment: Alignment.bottomLeft,
-                                                child: Text("${homeController.BooksList[index].name}", maxLines: 1,style: TextStyle(color: Colors.black,fontSize: 23.sp,fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis),),
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                        height: Get.height/3.3,
+                                        width: Get.width/1.3,
+                                        margin: EdgeInsets.only(right: Get.width/21),
+                                        padding: EdgeInsets.only(left: Get.width/4.1),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(15),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.grey,
+                                                  offset: Offset(0,0),
+                                                  blurRadius: 15
+                                              )
+                                            ]
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: Get.height/14,
+                                              width: Get.width,
+                                              // color: Colors.red,
+                                              alignment: Alignment.bottomLeft,
+                                              child: Text("${homeController.BooksList[index].name}", maxLines: 1,style: TextStyle(color: Colors.black,fontSize: 23.sp,fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis),),
+                                            ),
+                                            Container(
+                                              height: Get.height/18,
+                                              width: Get.width,
+                                              // color: Colors.yellowAccent,
+                                              alignment: Alignment.centerLeft,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    "${double.parse(homeController.BooksList[index].rating!) <= 1.0 ? "⭐" : double.parse(homeController.BooksList[index].rating!) <= 2.0 ? "⭐ ⭐" : double.parse(homeController.BooksList[index].rating!) <= 3.0 ? "⭐ ⭐ ⭐" : double.parse(homeController.BooksList[index].rating!) <= 4.0 ? "⭐ ⭐ ⭐ ⭐" : double.parse(homeController.BooksList[index].rating!) <= 5.0 ? "⭐ ⭐ ⭐ ⭐ ⭐" : ""}",
+                                                    maxLines: 1,
+                                                    style: TextStyle(fontSize: 12.sp),),
+                                                  SizedBox(width: Get.width/30,),
+                                                  Text("${homeController.BooksList[index].rating}", maxLines: 1,style: TextStyle(color: Colors.grey,fontSize: 12.sp,),),
+                                                ],
                                               ),
-                                              Container(
-                                                height: Get.height/18,
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                margin: EdgeInsets.only(bottom: Get.width/30,right: Get.width/30),
                                                 width: Get.width,
-                                                // color: Colors.yellowAccent,
-                                                alignment: Alignment.centerLeft,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Text(
-                                                      "${double.parse(homeController.BooksList[index].rating!) <= 1.0 ? "⭐" : double.parse(homeController.BooksList[index].rating!) <= 2.0 ? "⭐ ⭐" : double.parse(homeController.BooksList[index].rating!) <= 3.0 ? "⭐ ⭐ ⭐" : double.parse(homeController.BooksList[index].rating!) <= 4.0 ? "⭐ ⭐ ⭐ ⭐" : double.parse(homeController.BooksList[index].rating!) <= 5.0 ? "⭐ ⭐ ⭐ ⭐ ⭐" : ""}",
-                                                      maxLines: 1,
-                                                      style: TextStyle(fontSize: 12.sp),),
-                                                    SizedBox(width: Get.width/30,),
-                                                    Text("${homeController.BooksList[index].rating}", maxLines: 1,style: TextStyle(color: Colors.grey,fontSize: 12.sp,),),
-                                                  ],
+                                                // color: Colors.blue,
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  "${homeController.BooksList[index].book_about}",
+                                                  maxLines: 7,
+                                                  style: TextStyle(color: Colors.grey,fontSize: 12.sp,overflow: TextOverflow.ellipsis),
                                                 ),
                                               ),
-                                              Expanded(
-                                                child: Container(
-                                                  margin: EdgeInsets.only(bottom: Get.width/30,right: Get.width/30),
-                                                  width: Get.width,
-                                                  // color: Colors.blue,
-                                                  alignment: Alignment.topLeft,
-                                                  child: Text(
-                                                    "${homeController.BooksList[index].book_about}",
-                                                    maxLines: 7,
-                                                    style: TextStyle(color: Colors.grey,fontSize: 12.sp,overflow: TextOverflow.ellipsis),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        height: Get.height/4.1,
+                                        width: Get.width/2.9,
+                                        margin: EdgeInsets.only(left: Get.width/21),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(15),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.grey,
+                                                  offset: Offset(0,0),
+                                                  blurRadius: 15
+                                              )
+                                            ]
+                                        ),
+                                        alignment: Alignment.center,
                                         child: Container(
-                                          height: Get.height/4.1,
-                                          width: Get.width/2.9,
-                                          margin: EdgeInsets.only(left: Get.width/21),
+                                          height: Get.height/4.5,
+                                          width: Get.width/3.3,
                                           decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(15),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: Colors.grey,
-                                                    offset: Offset(0,0),
-                                                    blurRadius: 15
-                                                )
-                                              ]
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(12),
                                           ),
                                           alignment: Alignment.center,
-                                          child: Hero(
-                                            tag: "image",
-                                            child: Container(
-                                              height: Get.height/4.5,
-                                              width: Get.width/3.3,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(12),
-                                              ),
-                                              alignment: Alignment.center,
-                                              child: ClipRRect(borderRadius: BorderRadius.circular(12),child: Image.file(File("${homeController.BooksList[index].image}"),fit: BoxFit.fill,)),
-                                            ),
-                                          ),
+                                          child: ClipRRect(borderRadius: BorderRadius.circular(12),child: Image.file(File("${homeController.BooksList[index].image}"),fit: BoxFit.fill,)),
                                         ),
-                                      )
-                                    ],
-                                  ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
                             onPressed: (){},
-                          );
-                        },
-                      )
-                            : Center(child: Text("This Category Data Not Available",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),),
+                        );
+                      },
                     ),
+                          )
+                          : Expanded(child: Center(child: Text("This Category Data Not Available",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),)),
                   );
                 }
                 return Expanded(

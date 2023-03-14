@@ -174,18 +174,15 @@ class _BookViewPageState extends State<BookViewPage> {
                     ]
                 ),
                 alignment: Alignment.center,
-                child: Hero(
-                  tag: "image",
-                  child: Container(
-                    height: Get.height/4,
-                    width: Get.width/2.9,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    alignment: Alignment.center,
-                    child: ClipRRect(borderRadius: BorderRadius.circular(12),child: Image.file(File("${homeController.bookDataModel.value.image}"),fit: BoxFit.fill,)),
+                child: Container(
+                  height: Get.height/4,
+                  width: Get.width/2.9,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
                   ),
+                  alignment: Alignment.center,
+                  child: ClipRRect(borderRadius: BorderRadius.circular(12),child: Image.file(File("${homeController.bookDataModel.value.image}"),fit: BoxFit.fill,)),
                 ),
               ),
             )
