@@ -6,6 +6,8 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:get/get.dart';
 import 'package:login_project/Screens/AddBookScreen/Model/BookDataModel.dart';
+import 'package:login_project/Screens/AddBookScreen/View/AddBookPage.dart';
+import 'package:login_project/Screens/BookViewScreen/View/BookViewPage.dart';
 import 'package:login_project/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:login_project/Utils/FirebaseHelper/FirebaseHelper.dart';
 import 'package:login_project/Utils/ToastMessage.dart';
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                        TextButton(onPressed: (){
                          homeController.Check.value = 0;
                          Get.back();
-                         Get.toNamed('AddBook');
+                         Get.to(AddBookPage(),transition: Transition.downToUp,duration: Duration(milliseconds: 500));
                        }, child: const Text("Add Book")),
                        SizedBox(width: Get.width/15,),
                        TextButton(onPressed: (){
@@ -318,6 +320,24 @@ class _HomePageState extends State<HomePage> {
                               FocusedMenuItem(
                                 title: Text("Delete"),
                                 onPressed: (){
+                                  for(int i=0; i<homeController.CategoryList.length; i++)
+                                  {
+                                    print("======= $i $index");
+                                    if(i == index)
+                                    {
+                                      for(int j=0; j<homeController.BookDataList.length; j++)
+                                      {
+                                        print("============ ${homeController.BookDataList[j].category} ${homeController.CategoryList[i]['name']}");
+                                        if(homeController.BookDataList[j].category == homeController.CategoryList[i]['name'])
+                                        {
+                                          print("===== $index $j DELETE ${homeController.BookDataList[j].id} ${homeController.CategoryList[index]['id']}");
+                                          FirebaseHelper.firebaseHelper.DeleteBookData(id: homeController.BookDataList[j].id!);
+                                          // homeController.BooksList.add(homeController.BookDataList[j]);
+                                        }
+                                      }
+                                      // print("============== ${homeController.BooksList[0].name}");
+                                    }
+                                  }
                                   FirebaseHelper.firebaseHelper.DeleteCategoryData(id: homeController.CategoryList[index]['id']);
                                 },
                                 trailingIcon: Icon(Icons.delete_outline),
@@ -382,7 +402,7 @@ class _HomePageState extends State<HomePage> {
                                                 },
                                                 child: Container(
                                                   height: Get.height/15,
-                                                  width: Get.width/2.1,
+                                                  width: Get.width/1.5,
                                                   decoration: BoxDecoration(
                                                       color: Colors.deepOrangeAccent.shade100,
                                                       borderRadius: BorderRadius.circular(15)
@@ -392,7 +412,7 @@ class _HomePageState extends State<HomePage> {
                                                     "Update Book Category",
                                                     style: TextStyle(
                                                         color: Colors.white,
-                                                        fontSize: 18.sp
+                                                        fontSize: 17.sp
                                                     ),
                                                   ),
                                                 ),
@@ -559,7 +579,7 @@ class _HomePageState extends State<HomePage> {
                                   homeController.txtUpdateBookPublishYear = TextEditingController(text: "${homeController.BooksList[index].publish_year}");
                                   homeController.txtUpdateBookRating = TextEditingController(text: "${homeController.BooksList[index].rating}");
                                   homeController.DropDownValue.value = homeController.BooksList[index].category!;
-                                  Get.toNamed('AddBook');
+                                  Get.to(AddBookPage(),transition: Transition.downToUp,duration: Duration(milliseconds: 500));
                                 },
                                 trailingIcon: Icon(Icons.edit_outlined),
                               ),
@@ -567,7 +587,7 @@ class _HomePageState extends State<HomePage> {
                             child: InkWell(
                               onTap: (){
                                 homeController.bookDataModel.value = homeController.BooksList[index];
-                                Get.toNamed('ViewBook');
+                                Get.to(BookViewPage(),transition: Transition.downToUp,duration: Duration(milliseconds: 500));
                               },
                               child: Container(
                                 height: Get.height/3,
@@ -656,15 +676,18 @@ class _HomePageState extends State<HomePage> {
                                               ]
                                           ),
                                           alignment: Alignment.center,
-                                          child: Container(
-                                            height: Get.height/4.5,
-                                            width: Get.width/3.3,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(12),
+                                          child: Hero(
+                                            tag: "image",
+                                            child: Container(
+                                              height: Get.height/4.5,
+                                              width: Get.width/3.3,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(12),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: ClipRRect(borderRadius: BorderRadius.circular(12),child: Image.file(File("${homeController.BooksList[index].image}"),fit: BoxFit.fill,)),
                                             ),
-                                            alignment: Alignment.center,
-                                            child: ClipRRect(borderRadius: BorderRadius.circular(12),child: Image.file(File("${homeController.BooksList[index].image}"),fit: BoxFit.fill,)),
                                           ),
                                         ),
                                       )
