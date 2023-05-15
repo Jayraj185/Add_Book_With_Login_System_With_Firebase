@@ -4,6 +4,8 @@ import 'package:login_project/Screens/HomeScreen/Controller/HomeController.dart'
 import 'package:login_project/Utils/FirebaseHelper/FirebaseHelper.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../Utils/ToastMessage.dart';
+
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
@@ -212,16 +214,16 @@ class _SignInPageState extends State<SignInPage> {
                               if(isLogin)
                                 {
                                   Get.offNamed('Home');
-                                  Get.snackbar('Congratulation', 'Login Is Successfully');
+                                  ToastMessage(msg: "Sign In Successful",color: Colors.green);
                                 }
                               else
                                 {
-                                  Get.snackbar('Failed', 'Login Not Successfully');
+                                  ToastMessage(msg: "Sign In Not Successful",color: Colors.red);
                                 }
                             }
                           else
                             {
-                              Get.snackbar("Alert", "Please Add Your Email & Password");
+                              ToastMessage(msg: "Please Add Your Email & Password",color: Colors.deepOrangeAccent.shade100);
                             }
                         },
                         child: Container(
@@ -280,11 +282,11 @@ class _SignInPageState extends State<SignInPage> {
                                 if(isLogin)
                                   {
                                     Get.offNamed('Home');
-                                    Get.snackbar('Congratulation', 'Login Is Successful');
+                                    ToastMessage(msg: "Sign In Successful",color: Colors.green);
                                   }
                                 else
                                   {
-                                    Get.snackbar('Failed', 'Login Not Successful');
+                                    ToastMessage(msg: "Sign In Not Successful",color: Colors.red);
                                   }
                               },
                               child: Container(
@@ -307,11 +309,11 @@ class _SignInPageState extends State<SignInPage> {
                                 if(isLogin)
                                 {
                                   Get.offNamed('Home');
-                                  Get.snackbar('Congratulation', 'Login Is Successful');
+                                  ToastMessage(msg: "Sign In Successful",color: Colors.green);
                                 }
                                 else
                                 {
-                                  Get.snackbar('Failed', 'Login Not Successful');
+                                  ToastMessage(msg: "Sign In Not Successful",color: Colors.red);
                                 }
                               },
                               child: Container(

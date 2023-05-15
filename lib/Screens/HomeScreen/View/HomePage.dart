@@ -65,7 +65,15 @@ class _HomePageState extends State<HomePage> {
                        TextButton(onPressed: (){
                          homeController.Check.value = 0;
                          Get.back();
-                         Get.to(AddBookPage(),transition: Transition.downToUp,duration: Duration(milliseconds: 500));
+                         if(homeController.CategoryList.isNotEmpty) {
+                           Get.to(
+                               AddBookPage(), transition: Transition.downToUp,
+                               duration: Duration(milliseconds: 500));
+                         }
+                         else
+                           {
+                             ToastMessage(msg: "Please Add Your Book Category",color: Colors.red);
+                           }
                        }, child: const Text("Add Book")),
                        SizedBox(width: Get.width/15,),
                        TextButton(onPressed: (){
@@ -115,11 +123,12 @@ class _HomePageState extends State<HomePage> {
                                         {
                                           FirebaseHelper.firebaseHelper.InsertCategoryData(homeController.txtBookCategoryName.text);
                                           Get.back();
+                                          ToastMessage(msg: "Your Category Is Insert Successful",color: Colors.green);
                                           homeController.AddCategorykey.currentState!.reset();
                                         }
                                       else
                                         {
-                                          ToastMessage(msg: "Please Add Your Data");
+                                          ToastMessage(msg: "Please Add Your Data",color: Colors.deepOrangeAccent.shade100);
                                           Get.back();
                                         }
                                     },
@@ -339,6 +348,7 @@ class _HomePageState extends State<HomePage> {
                                     }
                                   }
                                   FirebaseHelper.firebaseHelper.DeleteCategoryData(id: homeController.CategoryList[index]['id']);
+                                  ToastMessage(msg: "Your Category Is Delete",color: Colors.green);
                                 },
                                 trailingIcon: Icon(Icons.delete_outline),
                               ),
@@ -392,11 +402,12 @@ class _HomePageState extends State<HomePage> {
                                                   {
                                                     FirebaseHelper.firebaseHelper.UpdateCategoryData(id: homeController.CategoryList[index]['id'], Selected: homeController.CategoryList[index]['selected'], CategoryName: homeController.txtUpdateBookCategoryName.text);
                                                     Get.back();
+                                                    ToastMessage(msg: "Your Data Is Update",color: Colors.green);
                                                     homeController.AddCategorykey.currentState!.reset();
                                                   }
                                                   else
                                                   {
-                                                    ToastMessage(msg: "Please Add Your Data");
+                                                    ToastMessage(msg: "Please Add Your Data",color: Colors.deepOrangeAccent.shade100);
                                                     Get.back();
                                                   }
                                                 },
@@ -549,7 +560,7 @@ class _HomePageState extends State<HomePage> {
                   print("========= ${homeController.BooksList.length}");
                   // print("=========Length ${homeController.BooksList.length}");
                   return Obx(
-                      () => homeController.BooksList.isNotEmpty
+                      () => homeController.CategoryList.isNotEmpty ? homeController.BooksList.isNotEmpty
                           ? Expanded(
                             child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
@@ -563,6 +574,7 @@ class _HomePageState extends State<HomePage> {
                                 title: Text("Delete"),
                                 onPressed: (){
                                   FirebaseHelper.firebaseHelper.DeleteBookData(id: homeController.BooksList[index].id!);
+                                  ToastMessage(msg: "Your Book Is Delete",color: Colors.green);
                                 },
                                 trailingIcon: Icon(Icons.delete_outline),
                               ),
@@ -580,6 +592,7 @@ class _HomePageState extends State<HomePage> {
                                   homeController.txtUpdateBookRating = TextEditingController(text: "${homeController.BooksList[index].rating}");
                                   homeController.DropDownValue.value = homeController.BooksList[index].category!;
                                   Get.to(AddBookPage(),transition: Transition.downToUp,duration: Duration(milliseconds: 500));
+                                  ToastMessage(msg: "Your Data Is Update",color: Colors.green);
                                 },
                                 trailingIcon: Icon(Icons.edit_outlined),
                               ),
@@ -696,7 +709,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                           )
-                          : Expanded(child: Center(child: Text("This Category Data Not Available",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),)),
+                          : Expanded(child: Center(child: Text("This Category Data Not Available",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),)) : const Text(""),
                   );
                 }
                 return Expanded(

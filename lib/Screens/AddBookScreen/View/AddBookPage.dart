@@ -324,6 +324,7 @@ class _AddBookPageState extends State<AddBookPage> {
                                 publish_year: homeController.txtBookPublishYear.text,
                               );
                               FirebaseHelper.firebaseHelper.InsertBookData(bookDataModel);
+                              ToastMessage(msg: "Your Book Is Insert Successful",color: Colors.green);
                             }
                           else
                             {
@@ -338,6 +339,7 @@ class _AddBookPageState extends State<AddBookPage> {
                                 publish_year: homeController.txtUpdateBookPublishYear.text,
                               );
                               FirebaseHelper.firebaseHelper.UpdateBookData(bookDataModel: bookDataModel,id: homeController.Id.value);
+                              ToastMessage(msg: "Your Data Is Update",color: Colors.green);
                             }
                           Get.back();
                           homeController.AddBookkey.currentState!.reset();
@@ -346,7 +348,7 @@ class _AddBookPageState extends State<AddBookPage> {
                         }
                       else
                         {
-                          ToastMessage(msg: "Please Add Your Data");
+                          ToastMessage(msg: "Please Add Your Data",color: Colors.deepOrangeAccent.shade100);
                         }
                     },
                     child: Container(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:login_project/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:login_project/Utils/FirebaseHelper/FirebaseHelper.dart';
+import 'package:login_project/Utils/ToastMessage.dart';
 import 'package:sizer/sizer.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -232,15 +233,14 @@ class _SignUpPageState extends State<SignUpPage> {
 
                             if (isSignUp) {
                               Get.back();
-                              Get.snackbar('Thank You', "Sign Up Successfully\nEmail : ${homeController.txtSignUpEmail.value.text}");
+                              ToastMessage(msg: "Sign Up Successful\nEmail : ${homeController.txtSignInEmail.text}",color: Colors.green);
                               homeController.txtSignUpEmail.clear();
                               homeController.txtSignUpPass.clear();
                             } else {
-                              Get.snackbar('Sorry', "Sign Up Not Successful");
+                              ToastMessage(msg: "Sign Up Not Successful",color: Colors.red);
                             }
                           } else {
-                            Get.snackbar(
-                                "Alert", "Please Add Your Email & Password");
+                            ToastMessage(msg: "Please Add Your Email & Password",color: Colors.deepOrangeAccent.shade100);
                           }
                         },
                         child: Container(
@@ -298,11 +298,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                 if(isLogin)
                                 {
                                   Get.offNamed('Home');
-                                  Get.snackbar('Congratulation', 'Login Is Successful');
+                                  ToastMessage(msg: "Sign In Successful",color: Colors.green);
                                 }
                                 else
                                 {
-                                  Get.snackbar('Failed', 'Login Not Successful');
+                                  ToastMessage(msg: "Sign In Not Successful",color: Colors.red);
                                 }
                               },
                               child: Container(
@@ -331,11 +331,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                 if(isLogin)
                                 {
                                   Get.offNamed('Home');
-                                  Get.snackbar('Congratulation', 'Login Is Successful');
+                                  ToastMessage(msg: "Sign In Successful",color: Colors.green);
                                 }
                                 else
                                 {
-                                  Get.snackbar('Failed', 'Login Not Successful');
+                                  ToastMessage(msg: "Sign In Not Successful",color: Colors.red);
                                 }
                               },
                               child: Container(
