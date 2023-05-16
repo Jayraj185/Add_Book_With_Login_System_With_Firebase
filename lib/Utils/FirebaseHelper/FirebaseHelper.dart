@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:login_project/Screens/AddBookScreen/Model/BookDataModel.dart';
 
@@ -14,9 +15,9 @@ class FirebaseHelper
 
 
   //SignUp Account Function
-  Future<bool> CreateSignUp({required String email, required String password}) async
+  Future<dynamic> CreateSignUp({required String email, required String password}) async
   {
-    bool isSignUp = false;
+    dynamic isSignUp;
 
     await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password).then(
       (value) {
@@ -24,25 +25,44 @@ class FirebaseHelper
         isSignUp = true;
       },
     ).catchError((error) {
-      print("========== $error");
-      isSignUp = false;
+      int len = 0;
+      for(int i=0; i<error.toString().length; i++)
+      {
+        if(error.toString()[i].contains(']'))
+        {
+          len = i + 2;
+          print("object====== $len");
+          break;
+        }
+      }
+      isSignUp = error.toString().substring(len,error.toString().length);
     },);
 
     return isSignUp;
   }
 
   //SignIn Account Function
-  Future<bool> SignInUser({required String email, required String password})
+  Future<dynamic> SignInUser({required String email, required String password})
   async {
-    bool isSignIn = false;
+    dynamic isSignIn;
 
     await firebaseAuth.signInWithEmailAndPassword(email: email, password: password)
     .then((value) {
+      print("object== $value");
       isSignIn = true;
     })
     .catchError((error){
-      print("===== $error");
-      isSignIn = false;
+      int len = 0;
+      for(int i=0; i<error.toString().length; i++)
+        {
+          if(error.toString()[i].contains(']'))
+            {
+              len = i + 2;
+              print("object====== $len");
+              break;
+            }
+        }
+      isSignIn = error.toString().substring(len,error.toString().length);
     });
     print("===== $isSignIn");
     return isSignIn;
@@ -67,10 +87,10 @@ class FirebaseHelper
   }
 
   //Login With Google
-  Future<bool> GoogleLogIn()
+  Future<dynamic> GoogleLogIn()
   async {
 
-    bool isLogin = false;
+    dynamic isLogin;
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -89,17 +109,25 @@ class FirebaseHelper
       isLogin = true;
     })
     .catchError((error) {
-      isLogin = false;
+      int len = 0;
+      for(int i=0; i<error.toString().length; i++)
+      {
+        if(error.toString()[i].contains(']'))
+        {
+          len = i + 2;
+          print("object====== $len");
+          break;
+        }
+      }
+      isLogin = error.toString().substring(len,error.toString().length);
     });
-
-    return isLogin;
   }
 
   //Login With Facebook
-  Future<bool> FacebookLogIn()
+  Future<dynamic> FacebookLogIn()
   async {
 
-    bool isLogin = false;
+    dynamic isLogin;
     // Trigger the sign-in flow
     final LoginResult loginResult = await FacebookAuth.instance.login();
 
@@ -112,8 +140,17 @@ class FirebaseHelper
       isLogin = true;
     })
     .catchError((error) {
-      print("===== $error");
-      isLogin = false;
+      int len = 0;
+      for(int i=0; i<error.toString().length; i++)
+      {
+        if(error.toString()[i].contains(']'))
+        {
+          len = i + 2;
+          print("object====== $len");
+          break;
+        }
+      }
+      isLogin = error.toString().substring(len,error.toString().length);
     });
     print("===== $isLogin");
 

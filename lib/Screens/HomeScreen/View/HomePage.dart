@@ -44,8 +44,26 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.only(left: Get.width/60),
             child: IconButton(
               onPressed: () async {
-                await FirebaseHelper.firebaseHelper.SignOutUser();
-                Get.offNamed('SignIn');
+                Get.defaultDialog(
+                    title: "Are You Sure Log Out",
+                  content: Text("Please Select Any One"),
+                  actions: [
+                    TextButton(
+                      style: TextButton.styleFrom(backgroundColor: Colors.green),
+                        onPressed: () async {
+                      await FirebaseHelper.firebaseHelper.SignOutUser();
+                      Get.offNamed('SignIn');
+                      ToastMessage(msg: "Log Out Successfully", color: Colors.green);
+                    }, child: const Text("Yes",style: TextStyle(color: Colors.white),)),
+                    TextButton(
+                        onPressed: (){
+                          Get.back();
+                        },
+                        child: const Text("No",style: TextStyle(color: Colors.white),),
+                      style: TextButton.styleFrom(backgroundColor: Colors.red),
+                    )
+                  ]
+                );
               },
               icon: Icon(Icons.logout,color: Colors.white,),
             ),
@@ -400,6 +418,34 @@ class _HomePageState extends State<HomePage> {
                                                 onTap: (){
                                                   if(homeController.AddCategorykey.currentState!.validate())
                                                   {
+                                                    for(int i=0; i<homeController.CategoryList.length; i++)
+                                                    {
+                                                      print("======= $i $index");
+                                                      if(i == index)
+                                                      {
+                                                        for(int j=0; j<homeController.BookDataList.length; j++)
+                                                        {
+                                                          print("============ ${homeController.BookDataList[j].category} ${homeController.CategoryList[i]['name']}");
+                                                          if(homeController.BookDataList[j].category == homeController.CategoryList[i]['name'])
+                                                          {
+                                                            print("===== $index $j DELETE ${homeController.BookDataList[j].id} ${homeController.CategoryList[index]['id']}");
+                                                            BookDataModel bookDataModel = BookDataModel(
+                                                              name: homeController.BookDataList[j].name!,
+                                                              image: homeController.BookDataList[j].image!,
+                                                              author_name: homeController.BookDataList[j].author_name!,
+                                                              author_about:homeController.BookDataList[j].author_about!,
+                                                              book_about: homeController.BookDataList[j].book_about!,
+                                                              rating: homeController.BookDataList[j].rating!,
+                                                              category: homeController.txtUpdateBookCategoryName.text,
+                                                              publish_year: homeController.BookDataList[j].publish_year!,
+                                                            );
+                                                            FirebaseHelper.firebaseHelper.UpdateBookData(id: homeController.BookDataList[j].id!,bookDataModel: bookDataModel);
+                                                            // homeController.BooksList.add(homeController.BookDataList[j]);
+                                                          }
+                                                        }
+                                                        // print("============== ${homeController.BooksList[0].name}");
+                                                      }
+                                                    }
                                                     FirebaseHelper.firebaseHelper.UpdateCategoryData(id: homeController.CategoryList[index]['id'], Selected: homeController.CategoryList[index]['selected'], CategoryName: homeController.txtUpdateBookCategoryName.text);
                                                     Get.back();
                                                     ToastMessage(msg: "Your Data Is Update",color: Colors.green);
@@ -560,7 +606,7 @@ class _HomePageState extends State<HomePage> {
                   print("========= ${homeController.BooksList.length}");
                   // print("=========Length ${homeController.BooksList.length}");
                   return Obx(
-                      () => homeController.CategoryList.isNotEmpty ? homeController.BooksList.isNotEmpty
+                      () => homeController.BooksList.isNotEmpty
                           ? Expanded(
                             child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
@@ -709,7 +755,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                           )
-                          : Expanded(child: Center(child: Text("This Category Data Not Available",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),)) : const Text(""),
+                          : Expanded(child: Center(child: Text("This Category Data Not Available",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),)),
                   );
                 }
                 return Expanded(

@@ -46,7 +46,7 @@ class _SignInPageState extends State<SignInPage> {
                 // color: Colors.red,
                 margin: EdgeInsets.only(top: Get.width/1.6,left: Get.width/12),
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     children: [
                       Align(
@@ -179,9 +179,9 @@ class _SignInPageState extends State<SignInPage> {
                                 {
                                   return "Please Enter Your Password";
                                 }
-                                else if (value.length != 6)
+                                else if (value.length < 6)
                                 {
-                                  return "Please Enter Maximum 6 Letter";
+                                  return "Please Enter Minimum 6 Letter";
                                 }
                                 return null;
                               },
@@ -210,15 +210,15 @@ class _SignInPageState extends State<SignInPage> {
                         onTap: () async {
                           if(homeController.SignInkey.currentState!.validate())
                             {
-                              bool isLogin = await FirebaseHelper.firebaseHelper.SignInUser(email: homeController.txtSignInEmail.text, password: homeController.txtSignInPass.value.text);
-                              if(isLogin)
+                              var isLogin = await FirebaseHelper.firebaseHelper.SignInUser(email: homeController.txtSignInEmail.text, password: homeController.txtSignInPass.value.text);
+                              if(isLogin is bool)
                                 {
                                   Get.offNamed('Home');
                                   ToastMessage(msg: "Sign In Successful",color: Colors.green);
                                 }
                               else
                                 {
-                                  ToastMessage(msg: "Sign In Not Successful",color: Colors.red);
+                                  ToastMessage(msg: "$isLogin",color: Colors.red);
                                 }
                             }
                           else
@@ -278,15 +278,15 @@ class _SignInPageState extends State<SignInPage> {
                           children: [
                             InkWell(
                               onTap: () async {
-                                bool isLogin = await FirebaseHelper.firebaseHelper.GoogleLogIn();
-                                if(isLogin)
+                                var isLogin = await FirebaseHelper.firebaseHelper.GoogleLogIn();
+                                if(isLogin is bool)
                                   {
                                     Get.offNamed('Home');
                                     ToastMessage(msg: "Sign In Successful",color: Colors.green);
                                   }
                                 else
                                   {
-                                    ToastMessage(msg: "Sign In Not Successful",color: Colors.red);
+                                    ToastMessage(msg: "$isLogin",color: Colors.red);
                                   }
                               },
                               child: Container(
@@ -305,15 +305,15 @@ class _SignInPageState extends State<SignInPage> {
                             ),
                             InkWell(
                               onTap: () async {
-                                bool isLogin = await FirebaseHelper.firebaseHelper.FacebookLogIn();
-                                if(isLogin)
+                                var isLogin = await FirebaseHelper.firebaseHelper.FacebookLogIn();
+                                if(isLogin as bool)
                                 {
                                   Get.offNamed('Home');
                                   ToastMessage(msg: "Sign In Successful",color: Colors.green);
                                 }
                                 else
                                 {
-                                  ToastMessage(msg: "Sign In Not Successful",color: Colors.red);
+                                  ToastMessage(msg: "Sign In Not Successful $isLogin",color: Colors.red);
                                 }
                               },
                               child: Container(
